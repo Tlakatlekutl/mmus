@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>{{category}}</h1>
+<h3><a href="{% url 'result' category %}">Скачать результат</a></h3>
+
+{% for i in images%}
+<p style="background-color: {% if i.ready %}green{% else %}red{%endif%}">
+    <a href="{% url 'markup' category i.id %}">
+        <img src={{ i.img.url }} width="200px" height="200px"> 
+    </a>
+</p>
+
+
+{% endfor %}
+{% endblock %}
