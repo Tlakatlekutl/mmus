@@ -2,6 +2,8 @@ before_script:
   - pip install -r requirements.txt
   - python manage.py makemigrations
   - python manage.py migrate
+  - systemctl stop django-markdown
+
 
 stages:
   - deploy
@@ -9,4 +11,4 @@ stages:
 runapp:
   stage: deploy
   script:
-    - python manage.py runserver
+    - systemctl start django-markdown
