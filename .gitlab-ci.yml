@@ -3,6 +3,10 @@ before_script:
   - python manage.py makemigrations
   - python manage.py migrate
 
+stages:
+  - deploy
+
 runapp:
+  stage: deploy
   script:
     - python manage.py runserver
