@@ -11,3 +11,5 @@ urlpatterns = [
     url(r'^category/(?P<category>[a-zA-Z0-9_а-яА-Я ]+)/result$', views.result, name='result'),   
     url(r'^category/(?P<category>[a-zA-Z0-9_а-яА-Я ]+)/(?P<image>[0-9]+)/markup$', views.markup, name='markup'),          
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
