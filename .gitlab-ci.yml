@@ -1,8 +1,8 @@
+image: python:3.5
 before_script:
-  - export PY_EXE=python3.5
-  - pip3 install -r requirements.txt
-  - python3 manage.py makemigrations
-  - python3 manage.py migrate
+  - pip install -r requirements.txt
+  - python manage.py makemigrations
+  - python manage.py migrate
   - systemctl stop django-markdown
 
 
@@ -12,5 +12,4 @@ stages:
 runapp:
   stage: deploy
   script:
-    - export PY_EXE=python3.5 
     - systemctl start django-markdown
