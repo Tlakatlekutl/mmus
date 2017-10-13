@@ -25,7 +25,7 @@ SECRET_KEY = '#6_ohl)x=&ci#k_pxojm8y_%t111$ybu63+sf&1w2hxllav1w9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['giis.iu5.bmstu.ru']
+ALLOWED_HOSTS = ['giis.iu5.bmstu.ru', 'localhost']
 
 
 # Application definition
@@ -120,6 +120,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/uploads/'
+# MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'datasets')
-# MEDIA_URL = '/datasets/'
+MEDIA_URL = '/datasets/'
