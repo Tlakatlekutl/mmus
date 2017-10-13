@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .forms import FileFieldForm
-from .models import Category, Image, Solution
+from .models import Category, Image, Solution, Tag
 import csv
 from django.http import HttpResponse
 
@@ -55,8 +55,9 @@ def result(request, category):
 
 def markup(request, category, image):
     category_by_name = get_object_or_404(Category, name=category)
+    category_tags = Tag.objects.filter(category=category_by_name)
     image_file = get_object_or_404(Image, pk=image)
-    return render(request, 'markup.html',{'image': image_file, 'c': category_by_name.name, 'id':image})
+    return render(request, 'markup.html',{'image': image_file,'tags':category_tags, 'c': category_by_name.name, 'id':image})
 
 
 def next(request, category, image):

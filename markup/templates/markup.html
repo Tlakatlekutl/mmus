@@ -3,6 +3,12 @@
 
 <h1>{{image.img.name}}</h1>
 
+<ul>
+{% for t in tags%}
+<li>{{t.name}}</li>
+{% endfor %}
+</ul>
+
 <canvas style="background-image: url({{MEDIA_URL}}{{image.img.url}})">
 </canvas>
 
