@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{image.img.name}}</h1>
+
+<canvas style="background-image: url({{MEDIA_URL}}{{image.img.url}})">
+</canvas>
+
+<button>OK</button>
+<a href="{% url 'next' c id %}">next</a>
+
+{% endblock %}

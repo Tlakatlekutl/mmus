@@ -42,4 +42,7 @@ class Solution(models.Model):
     x2 = models.PositiveSmallIntegerField()
     y2 = models.PositiveSmallIntegerField()
 
+    def __str__(self):
+        return '{} - {}, {}, {}, {} - {}'.format(self.img.img.name, self.x1, self.y1, self.x2, self.y2, self.tag.name)
+
 
