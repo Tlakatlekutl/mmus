@@ -4,7 +4,8 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-
+from .models import Category, Image, Solution, Tag
+from django.core.serializers import serialize
 import json
 
 
@@ -33,7 +34,16 @@ def login_user(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        return JsonResponse({})
+        category_user = Category.objects.filter(author=user).first() or None
+        tag_list = Tag.objects.filter(category=category_user) if category_user else None
+        return JsonResponse({
+                                'displayName': user.username,
+                                'email': user.email,
+                                'markup':{
+                                    'category': category_user.name if category_user else  None,
+                                    'classes': [t.name for t in tag_list] if tag_list else [],
+                                }
+                            })
     else:
         return JsonResponse({'status': 'error', 'message': 'Incorrect password or login'},
                             status=403)

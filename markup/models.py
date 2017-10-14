@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
+    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)    
     name = models.CharField(unique=True, max_length=30)
     tags = models.ManyToManyField('Tag')
     
