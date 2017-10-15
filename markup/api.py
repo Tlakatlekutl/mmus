@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from .models import Category, Image, Solution, Tag
 from django.core.serializers import serialize
-import json
+from django.http import HttpResponse
+import json, csv
 
 
 @csrf_exempt
@@ -94,3 +95,27 @@ def upload(request):
             obj.save()
         
     return JsonResponse({})
+
+
+@csrf_exempt
+@require_POST
+def result(request):
+    category_payload = json.loads(request.body.decode("utf-8"))
+    category = category_payload['category']
+    category_by_name = Category.objects.filter(name=category).first() 
+    if category_by_name is None:
+        return JsonResponse({'error': 'File creating error, category not founf'}, status=404)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="output.csv"'
+
+    category_images = Image.objects.filter(category=category_by_name)
+
+    writer = csv.writer(response)
+    writer.writerow(['Filename', 'X1', 'Y1', 'X2', 'Y2', 'Class'])
+
+    for i in category_images:
+        for c in Solution.objects.filter(img=i):
+            writer.writerow([c.img.img.name, c.x1, c.y1, c.x2, c.y2, c.tag.name])    
+        
+    return response
