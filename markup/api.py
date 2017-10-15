@@ -53,3 +53,44 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return JsonResponse({})
+
+
+@csrf_exempt
+@require_POST
+def category(request):
+    category_payload = json.loads(request.body.decode("utf-8"))
+    category_name = category_payload['category']
+    # try:
+    tags_list = category_payload['classes']
+    ctg, _ = Category.objects.get_or_create(
+                    name = category_name,
+                    author = request.user
+                )
+    for tg_name in tags_list:
+        temp_tag, created = Tag.objects.get_or_create(name=tg_name)
+        if created: temp_tag.save()
+        ctg.tags.add(temp_tag)
+
+    ctg.save()
+    return JsonResponse({})
+    # except:
+        # return JsonResponse({'status': 'error', 'message': 'Error creating category with tags'},
+                            # status=403)
+
+
+
+@csrf_exempt
+@require_POST
+def upload(request):
+    category = request.POST['category']
+    category_by_name = Category.objects.filter(name=category).first()
+    files = request.FILES.getlist('fileToUpload')
+    for f in files:
+        obj, created = Image.objects.get_or_create(
+            category = category_by_name,
+            img = f
+        )
+        if created:
+            obj.save()
+        
+    return JsonResponse({})

@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^api/login$', api.login_user, name='login'),
     url(r'^api/user$', api.signup, name='signup'),
     url(r'^api/logout$', api.logout_user, name='logout'),
+    url(r'^api/category$', api.category, name='category'),
+    url(r'^api/upload$', api.upload, name='upload'),
+    
+    
     
     
               

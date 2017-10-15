@@ -139,14 +139,15 @@ CORS_URLS_REGEX = r'^/api/.*$'
 #     'PUT',
 # )
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost',
-# )
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+)
 
-# CSRF_TRUSTED_ORIGINS = (
-#     'localhost',
-# )
+CSRF_TRUSTED_ORIGINS = (
+    'localhost:3000',
+)
 # CSRF_COOKIE_SECURE = False
 
