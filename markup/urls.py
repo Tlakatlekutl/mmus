@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^api/upload$', api.upload, name='api.upload'),
     url(r'^api/result$', api.result, name='api.result'),
     url(r'^api/image$', api.image, name='api.image'),
+    url(r'^api/markup$', api.markup, name='api.markup'),
+    
     
     
     

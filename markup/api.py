@@ -131,3 +131,30 @@ def image(request):
     if image is None:
         return JsonResponse({'error': 'Images not found'}, status=404)
     return JsonResponse({'url': request.build_absolute_uri(image.img.url), 'id': image.id})
+
+
+
+@csrf_exempt
+@require_POST
+def markup(request):
+    req_payload = json.loads(request.body.decode("utf-8"))
+    image_id = req_payload['id']
+    markup = req_payload['markup']
+
+    for s in markup:
+        print(s)
+        area = s['area']
+        markup_class = s['markup_class']
+        tmp_s, created = Solution.objects.update_or_create(
+            author = request.user,
+            img = Image.objects.get(pk=image_id),
+            tag = Tag.objects.get(name=markup_class),
+            defaults={
+                'x1': area['x1'],
+                'y1': area['y1'],
+                'x2': area['x2'],
+                'y2': area['y2'],
+                }
+        )
+        tmp_s.save()
+    return JsonResponse({})
