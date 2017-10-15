@@ -142,12 +142,12 @@ def markup(request):
     markup = req_payload['markup']
 
     for s in markup:
-        print(s)
         area = s['area']
         markup_class = s['markup_class']
+        img = Image.objects.get(pk=image_id)
         tmp_s, created = Solution.objects.update_or_create(
             author = request.user,
-            img = Image.objects.get(pk=image_id),
+            img = img,
             tag = Tag.objects.get(name=markup_class),
             defaults={
                 'x1': area['x1'],
@@ -157,4 +157,6 @@ def markup(request):
                 }
         )
         tmp_s.save()
+        img.ready=True
+        img.save()
     return JsonResponse({})
