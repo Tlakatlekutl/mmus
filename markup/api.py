@@ -104,7 +104,7 @@ def result(request):
     category = category_payload['category']
     category_by_name = Category.objects.filter(name=category).first() 
     if category_by_name is None:
-        return JsonResponse({'error': 'File creating error, category not founf'}, status=404)
+        return JsonResponse({'error': 'File creating error, category not found'}, status=404)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="output.csv"'
@@ -116,7 +116,7 @@ def result(request):
 
     for i in category_images:
         for c in Solution.objects.filter(img=i):
-            writer.writerow([c.img.img.name, c.x1, c.y1, c.x2, c.y2, c.tag.name])    
+            writer.writerow([c.img.filename(), c.x1, c.y1, c.x2, c.y2, c.tag.name])    
         
     return response
 
