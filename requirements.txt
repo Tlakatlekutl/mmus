@@ -1,4 +1,3 @@
 django
 pillow
-gunicorn
 django-cors-headers
