@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^api/category$', api.category, name='api.category'),
     url(r'^api/upload$', api.upload, name='api.upload'),
     url(r'^api/result$', api.result, name='api.result'),
+    url(r'^api/image$', api.image, name='api.image'),
+    
     
     
     

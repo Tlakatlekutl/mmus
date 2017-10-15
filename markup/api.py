@@ -119,3 +119,15 @@ def result(request):
             writer.writerow([c.img.img.name, c.x1, c.y1, c.x2, c.y2, c.tag.name])    
         
     return response
+
+
+@csrf_exempt
+@require_POST
+def image(request):
+    category_payload = json.loads(request.body.decode("utf-8"))
+    category = category_payload['category']
+    category_by_name = Category.objects.filter(name=category).first()
+    image = Image.objects.filter(category=category_by_name, ready=False).first() or Image.objects.filter(category=category_by_name).last()
+    if image is None:
+        return JsonResponse({'error': 'Images not found'}, status=404)
+    return JsonResponse({'url': request.build_absolute_uri(image.img.url), 'id': image.id})
