@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .forms import FileFieldForm
 from .models import Category, Image, Solution, Tag
 import csv
+import zipfile, io, os
 from django.http import HttpResponse
+from django.conf import settings
 
 # Create your views here.
 
@@ -67,3 +69,30 @@ def next(request, category, image):
         return redirect("markup", category=category, image=next_image.id)
     else:
         return redirect("images", category=category)
+
+
+
+def download(request, category):
+    category_by_name = get_object_or_404(Category, name=category)    
+    stream = io.BytesIO()
+    temp_zip_file = zipfile.ZipFile(stream, 'w')
+
+
+    for image in Image.objects.filter(category=category_by_name):
+        temp_zip_file.write(os.path.join(settings.MEDIA_ROOT, image.img.name), arcname=image.filename())
+    temp_zip_file.close()
+
+    response = HttpResponse(content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename="temp.zip"'
+    archive = stream.getvalue()
+    stream.close()
+    response.write(archive)
+    return response 
+
+
+def toggle(request, category, image):
+    category_by_name = get_object_or_404(Category, name=category)
+    image_file = get_object_or_404(Image, pk=image)
+    image_file.ready = not image_file.ready
+    image_file.save()
+    return redirect("images", category=category)

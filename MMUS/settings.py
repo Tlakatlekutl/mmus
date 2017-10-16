@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'MMUS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'imudb',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -130,24 +134,15 @@ MEDIA_URL = '/datasets/'
 
 CORS_URLS_REGEX = r'^/api/.*$'
 
-# CORS_ALLOW_METHODS = (
-#     'DELETE',
-#     'GET',
-#     'OPTIONS',
-#     'PATCH',
-#     'POST',
-#     'PUT',
-# )
-
-# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
+    'giis.iu5.bmstu.ru:7000',
 )
 
 CSRF_TRUSTED_ORIGINS = (
     'localhost:3000',
+    'giis.iu5.bmstu.ru:7000',
 )
-# CSRF_COOKIE_SECURE = False
 
